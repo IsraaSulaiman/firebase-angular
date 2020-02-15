@@ -1,0 +1,71 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
+  <div class="container nav-container">
+    <a class="navbar-brand" href="#">
+      <i class="fa fa-leaf"></i>
+    </a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/shopping-cart">
+            <i class="fa fa-shopping-cart"></i>
+            <span
+              *ngIf="cart$ | async as cart"
+              class="badge badge-warning badge-pill"
+              >{{ cart.totalCount }}</span
+            >
+          </a>
+        </li>
+      </ul>
+      <ul class="navbar-nav">
+        <li *ngIf="!(auth.user$ | async)" class="nav-item">
+          <a class="nav-link" routerLink="/login">Login</a>
+        </li>
+        <li *ngIf="auth.user$ | async as user" ngbDropdown class="nav-item dropdown">
+          <a
+            ngbDropdownToggle
+            class="nav-link dropdown-toggle"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            {{ user.displayName | uppercase }}
+          </a>
+          <div
+            ngbDropdownMenu
+            class="dropdown-menu"
+            aria-labelledby="navbarDropdown"
+          >
+            <a class="dropdown-item" routerLink="/my/orders">My Orders</a>
+            <ng-container *ngIf="user.isAdmin">
+              <a class="dropdown-item" routerLink="/admin/orders"
+                >Manage Orders</a
+              >
+              <a class="dropdown-item" routerLink="/admin/products"
+                >Manage Products</a
+              >
+            </ng-container>
+            <a class="dropdown-item" (click)="logout()">Logout</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<pre>
+  {{ auth.user$ | async | json }}
+</pre>

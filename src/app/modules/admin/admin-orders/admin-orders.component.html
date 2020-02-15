@@ -1,0 +1,4 @@
+<h1>All Orders</h1>
+<div class="row col-10" *ngIf="orders$ | async as orders">
+  <orders [url]="'/admin/orders'" [orders]="orders"></orders>
+</div>
