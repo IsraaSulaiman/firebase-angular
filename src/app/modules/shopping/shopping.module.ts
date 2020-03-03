@@ -10,9 +10,9 @@ import { ShoppingCartSummaryComponent } from "./components/shopping-cart-summary
 import { ShippingFormComponent } from "./components/shipping-form/shipping-form.component";
 import { FormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
-import { SharedModule } from 'src/app/shared/shared.module';
-import { OrderDetailsComponent } from 'src/app/shared/components/order-details/order-details.component';
-import { AuthGuard } from 'src/app/services/auth.guard';
+import { SharedModule } from "src/app/shared/shared.module";
+import { OrderDetailsComponent } from "src/app/shared/components/order-details/order-details.component";
+import { AuthGuard } from "src/app/services/auth.guard";
 
 @NgModule({
   declarations: [
@@ -30,13 +30,13 @@ import { AuthGuard } from 'src/app/services/auth.guard';
     RouterModule.forChild([
       {
         path: "my/orders/:id",
-        component: OrderDetailsComponent
-        // canActivate: [AuthGuard]
+        component: OrderDetailsComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: "my/orders",
-        component: MyOrdersComponent
-        // canActivate: [AuthGuard]
+        component: MyOrdersComponent,
+        canActivate: [AuthGuard]
       },
       { path: "products", component: ProductsComponent },
       {
@@ -46,13 +46,13 @@ import { AuthGuard } from 'src/app/services/auth.guard';
       },
       {
         path: "check-out",
-        component: CheckOutComponent
-        // canActivate: [AuthGuard]
+        component: CheckOutComponent,
+        canActivate: [AuthGuard]
       },
       {
         path: "order-success/:id",
-        component: OrderSuccessComponent
-        // canActivate: [AuthGuard]
+        component: OrderSuccessComponent,
+        canActivate: [AuthGuard]
       }
     ])
   ]

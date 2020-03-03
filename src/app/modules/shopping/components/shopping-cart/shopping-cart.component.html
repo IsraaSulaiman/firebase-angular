@@ -1,7 +1,3 @@
-<pre>
-  {{ auth.user$ | async | json }}
-</pre>
-
 <h1>Shopping Cart</h1>
 <div class="row col-10" *ngIf="cart$ | async as cart">
   <p>
@@ -23,17 +19,11 @@
     <tbody>
       <tr *ngFor="let item of cart.items">
         <td>
-          <div
-            [style.backgroundImage]="'url(' + item.imageUrl + ')'"
-            class="thumbnail"
-          ></div>
+          <div [style.backgroundImage]="'url(' + item.imageUrl + ')'" class="thumbnail"></div>
         </td>
         <td>{{ item.title }}</td>
         <td>
-          <product-quantity
-            [product]="item"
-            [shopping-cart]="cart"
-          ></product-quantity>
+          <product-quantity [product]="item" [shopping-cart]="cart"></product-quantity>
         </td>
         <td class="text-right">
           {{ item.totalPrice | currency: "USD":"symbol" }}
