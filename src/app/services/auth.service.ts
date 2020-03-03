@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Observable, from } from "rxjs";
-import { switchMap, share } from "rxjs/operators";
+import { Observable, from, BehaviorSubject } from "rxjs";
+import { switchMap, share, map } from "rxjs/operators";
 import { of } from "rxjs";
 
 import { AngularFireAuth } from "@angular/fire/auth";
@@ -13,23 +13,26 @@ import { UserService } from "./user.service";
   providedIn: "root"
 })
 export class AuthService {
-  user$: Observable<AppUser>;
+  user$: BehaviorSubject<AppUser>;
 
   constructor(
     public gfAuth: AngularFireAuth,
     private userService: UserService
   ) {
     //Get data from the auth default => then return user doc saved in the firestore
-    this.user$ = gfAuth.authState.pipe(
-      switchMap(user => {
-        if (user) {
-          return this.userService.get(user.uid);
-        } else {
-          return of(null);
-        }
-      }),
-      share()
-    );
+    gfAuth.authState
+      .pipe(
+        switchMap(user => {
+          if (user) {
+            return this.userService.get(user.uid);
+          } else {
+            return of(null);
+          }
+        })
+      )
+      .subscribe(user => {
+        this.user$ = new BehaviorSubject<AppUser>(user);
+      });
   }
 
   loginWithGoogle() {
@@ -54,6 +57,8 @@ export class AuthService {
   }
 
   logout() {
+    this.user$.next(null);
+
     return this.gfAuth.auth.signOut();
   }
 }
